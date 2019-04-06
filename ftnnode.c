@@ -258,12 +258,12 @@ static FTN_NODE *get_defnode_info(FTN_ADDR *fa, FTN_NODE *on, BINKD_CONFIG *conf
     if (!strcmp(host, "-"))
       continue;
 
-    if (&on->recheck < safe_time())
+    if ((!np) && (&on->recheck < safe_time()))
     {
     	aiErr = srv_getaddrinfo(host, port ? port : NULL, &hints, &ai);
     	if (aiErr != 0) continue;
+    	freeaddrinfo(ai);
     }
-    freeaddrinfo(ai);
     sprintf (host+strlen(host), ":%s", port);
     i=0;
     break;
